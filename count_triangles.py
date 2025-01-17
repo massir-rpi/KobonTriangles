@@ -1,7 +1,13 @@
 from poly_point_isect import isect_segments_include_segments
+from gen_lines import angles_to_lines
 from util import totuple
 
-def count_triangle_flat_in_neg_out(points):
+ZOOM_FACTOR = 10
+
+def count_triangles_angles_in_neg_out(angles):
+    return -1 * count_triangles(totuple(angles_to_lines(ZOOM_FACTOR, angles)))
+
+def count_triangles_flat_in_neg_out(points):
     return -1 * count_triangles(totuple(points.reshape(points.size // 4, 2, 2)))
 
 def count_triangles(lines):

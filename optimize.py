@@ -1,13 +1,16 @@
 from scipy.optimize import dual_annealing
-from count_triangles import count_triangle_flat_in_neg_out
-from random_lines import gen_rand_lines
+from count_triangles import count_triangles_angles_in_neg_out
+from gen_lines import angles_to_lines, gen_rand_angles
 from view import plot_lines_in_circle
 
-def optimize(lines_segments):
+def optimize(angles):
     return dual_annealing(
-        func=count_triangle_flat_in_neg_out,
-        bounds=[[-(2**32)+1,2**32-1]] * lines_segments.size,
-        x0=lines_segments.flatten()
+        func=count_triangles_angles_in_neg_out,
+        bounds=[[-100,100]] * angles.size,
+        x0=angles.flatten(),
+        # maxiter=10000,
+        # restart_temp_ratio=2.e-2,
+        # accept=-500,
     )
 
 if __name__ == '__main__':
@@ -25,11 +28,14 @@ if __name__ == '__main__':
     #     #[[0., 2.], [8., -4.]],
     # ])
     N = 5
-    zoom = 3
-    lines = gen_rand_lines(N, zoom)
-    opt = optimize(lines)
+    zoom = 2
+    # lines = gen_rand_lines(N, zoom)
+    angles = gen_rand_angles(N)
+    lines = angles_to_lines(zoom, angles)
+    opt = optimize(angles)
     opt_num_triangles = int(-1 * opt.fun)
-    opt_lines = opt.x.reshape(opt.x.size // 4, 2, 2)
+    # opt_lines = opt.x.reshape(opt.x.size // 4, 2, 2)
+    opt_lines = angles_to_lines(zoom, opt.x)
     plot_lines_in_circle(lines, zoom, "{}_seed.png".format(N))
     plot_lines_in_circle(opt_lines, zoom, "{}_opt_{}.png".format(N, opt_num_triangles))
 
