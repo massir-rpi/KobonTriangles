@@ -1,4 +1,5 @@
 from poly_point_isect import isect_segments_include_segments
+from util import totuple
 
 def count_triangle_flat_in_neg_out(points):
     return -1 * count_triangles(totuple(points.reshape(points.size // 4, 2, 2)))
@@ -14,12 +15,6 @@ def count_triangles(lines):
         lasts[isect[0]] = isect[1]
         lasts[isect[1]] = isect[0]
     return num_triangles
-
-def totuple(arr):
-    if arr.shape == ():
-        return arr.item()
-    else:
-        return tuple(map(totuple, arr))
 
 if __name__ == '__main__':
     # print(count_triangles([((-1,-1),(1,1)),((1,0),(-1,2)),((0,-1),(0,2))]))
