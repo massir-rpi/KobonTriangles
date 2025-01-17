@@ -2,15 +2,16 @@ from scipy.optimize import dual_annealing
 from count_triangles import count_triangles_angles_in_neg_out
 from gen_lines import angles_to_lines, gen_rand_angles
 from view import plot_lines_in_circle
+import numpy as np
 
 def optimize(angles):
     return dual_annealing(
         func=count_triangles_angles_in_neg_out,
-        bounds=[[-100,100]] * angles.size,
+        bounds=[[-np.pi,np.pi]] * angles.size,
         x0=angles.flatten(),
-        # maxiter=10000,
+        maxiter=10000,
         # restart_temp_ratio=2.e-2,
-        # accept=-500,
+        accept=-500,
     )
 
 if __name__ == '__main__':
@@ -27,8 +28,8 @@ if __name__ == '__main__':
     #     #[[0., 1.], [8., -3.]],
     #     #[[0., 2.], [8., -4.]],
     # ])
-    N = 5
-    zoom = 2
+    N = 7
+    zoom = 3
     # lines = gen_rand_lines(N, zoom)
     angles = gen_rand_angles(N)
     lines = angles_to_lines(zoom, angles)
