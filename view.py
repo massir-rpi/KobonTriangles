@@ -26,10 +26,10 @@ def plot_lines_in_circle(line_segments, zoom_factor, filepath, limits: Optional[
     for i in range(N):
         x1, y1 = line_segments[i][0]
         x2, y2 = line_segments[i][1]
-        ax.plot([x1, x2], [y1, y2], marker='o')
+        ax.plot([x1, x2], [y1, y2], marker='o', lw=0.5)
 
     ax.set_xlim(limits[0][0], limits[0][1])
     ax.set_ylim(limits[1][0], limits[1][1])
     ax.set_aspect('equal', adjustable='box')
 
-    plt.savefig(filepath)
+    plt.savefig(filepath, dpi=600)
